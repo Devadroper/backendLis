@@ -32,7 +32,7 @@ export default class ProductManager {
         const objName = Object.getOwnPropertyNames(prodToUpdate.data)
         const update = await productsModel.findOneAndUpdate(
             { _id: prodToUpdate.id },
-            { $set: { objName: prodToUpdate.data } }
+            { $set: { [objName]: prodToUpdate.data } }
         )
         return update
     }
