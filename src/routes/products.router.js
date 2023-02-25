@@ -29,7 +29,7 @@ router.get('/', async (req, res) => {//aca te llega inf por QUERY
 //Ruta para bucar un prod en particular:  http://localhost:8080/products/1 
 router.get('/:idProduct', async (req, res) => {
     const { idProduct } = req.params // te llega la info por params, la desectruturamos para acceder a ella 
-    const product = await pm.getProductById(parseInt(idProduct))
+    const product = await pm.getProductById(idProduct)
     res.json({ product })// te envia la rta con el producto dentro de un objeto 
 })
 

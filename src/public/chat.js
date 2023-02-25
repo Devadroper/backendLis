@@ -1,9 +1,9 @@
 const socketClient = io();
 
 const form = document.querySelector('form')
-const chat = document.getElementById("chat");
-const message = document.querySelector('input')[0]
-const email = document.querySelector('input')[1]
+const chat = document.getElementById("chatField");
+const email = document.querySelectorAll('input')[0]
+const message = document.querySelectorAll('input')[1]
 
 socketClient.emit('show')
 
@@ -16,8 +16,9 @@ socketClient.on("loadMsg", (e) => {
   chat.innerHTML = "";
   e.map((e) => {
     let div = document.createElement("div");
+    div.className = "chatMsg"
     div.innerHTML = `
-    <p>${e.email}:</p>
+    <p>${e.user}:</p>
     <p>${e.message}</p>
     `;
     chat.appendChild(div);

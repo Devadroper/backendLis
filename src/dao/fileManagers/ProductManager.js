@@ -101,6 +101,7 @@ export default class ProductManager {
         await this.getProducts() // leo todos los prods del archivo y lo guardo en this.products
 
         // prodToUpdate = {id, data:{ title, description, code, price, status, stock, category, thumbnails }}
+        // se pasa un objeto completo con todos los valores en la variable
         const { title, description, code, price, status, stock, category, thumbnails } = prodToUpdate.data; //data es una prop de prodToUpdate
 
         //valido si existe el producto en el arreglo 
