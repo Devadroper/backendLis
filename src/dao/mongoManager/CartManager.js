@@ -19,14 +19,14 @@ export default class CartManager {
 
   async getCartById(id) {
     try {
-      const getId = await cartsModel.findById(id).populate("products");
+      const getId = await cartsModel.findById(id);
       return getId;
     } catch (err) {
       console.log(err);
     }
   }
 
-  async addToCart(cid, pid) {
+  async addToCart(cid, pid, quantity) {
     try {
       const cart = await cartsModel.findById(cid);
 
@@ -37,28 +37,19 @@ export default class CartManager {
 
         // despues me fijo que el producto ya exista en el carrito
         if (!!prod) {
-
-          // const update = cart.products.map(prod => {
-          //   if (prod.productId == pid) {
-          //     prod.quantity += quantity
-          //   }
-          //   return prod
-          // })
-          // return await cartsModel.findByIdAndUpdate(cid, { products: update })
-
-          return { message: "Producto existente en el carrito" }
-
+          const update = cart.products.map(prod => {
+            if (prod.productId == pid) {
+              prod.quantity += quantity
+            }
+            return prod
+          })
+          return await cartsModel.findByIdAndUpdate(cid, { products: update })
         } else {
-
-          // const addProd = await cartsModel.findOneAndUpdate(
-          //   { _id: cid },
-          //   { $push: { products: { productId: pid, quantity: quantity } } }
-          // );
-          // return addProd
-
-          cart.products.push(pid)
-          return cart.save()
-
+          const addProd = await cartsModel.findOneAndUpdate(
+            { _id: cid },
+            { $push: { products: { productId: pid, quantity: quantity } } }
+          );
+          return addProd
         }
       } else {
         return { error: "Carrito no encontrado" };
@@ -68,37 +59,18 @@ export default class CartManager {
     }
   }
 
-  async deleteFromCart(cid, pid) {
-    try {
+  // async deleteFromCart(cid, pid) {
+  //   try {
+  //     const cart = await cartsModel.findById(cid);
 
-      const cart = await cartsModel.findById(cid);
+  //     // me fijo si el carrito esta creado
+  //     if (!!cart) {
+  //       cart.products.deleteOne(pid)
 
-      if (!!cart) {
-        const prod = cart.products.find((e) => e.toString() === pid);
-        if (!!prod) {
-          cart.products.splice(cart.products.indexOf(prod), 1)
-          return cart.save()
-        } else {
-          return { error: "El producto no fue encontrado" };
-        }
-      } else {
-        return { error: "El carrito no fue encontrado" };
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  }
+  //     }
 
-  async deleteCart(cid) {
-    try {
-      const cart = await cartsModel.findByIdAndUpdate(cid, { products: [] })
-      if (!!cart) {
-        return cart
-      } else {
-        return { error: "El carrito no fue encontrado" };
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  }
+  //   } catch (error) {
+  //     console.log(err);
+  //   }
+  // }
 }

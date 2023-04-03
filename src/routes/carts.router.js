@@ -33,37 +33,10 @@ router.get('/:cid', async (req, res) => { //se lo paso x params
 // almaceno un porducto en un carrito que ya tengo creado
 router.post('/:cid/products/:pid', async (req, res) => {
     const { cid, pid } = req.params//recibe inf por params 
-    // const { quantity } = req.body//recibe inf por body
+    const { quantity } = req.body//recibe inf por body
 
-    const cart = await cm.addToCart(cid, pid)
+    const cart = await cm.addToCart(cid, pid, parseInt(quantity))
     res.status(200).json({ message: 'Carrito actualizado ', cart: cart })
-})
-
-router.delete('/:cid/products/:pid', async (req, res) => {
-    const { cid, pid } = req.params//recibe inf por params 
-
-    const cart = await cm.deleteFromCart(cid, pid)
-    res.status(200).json({ message: 'Carrito actualizado ', cart: cart })
-})
-
-router.put('/:cid', async (req, res) => {
-    const { cid } = req.params
-    const arr = req.body //recibe array por body
-
-    // const cart = await cm.updateProds(cid, arr) falta el metodo
-})
-
-router.put('/:cid/products/:pid', async (req, res) => {
-    const { cid, pid } = req.params//recibe inf por params 
-    const { quantity } = req.body //recibe inf por body
-
-    // const cart = await cm.updateQuantity(cid, pid, quantity) falta el metodo
-})
-
-router.delete('/:cid', async (req, res) => {
-    const { cid } = req.params
-
-    const cart = await cm.deleteCart(cid)
 })
 
 /*

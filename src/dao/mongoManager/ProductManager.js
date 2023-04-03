@@ -60,7 +60,7 @@ export default class ProductManager {
     const status = prods !== 'error' ? 'success' : 'error' // como seria????
     const prevLink = prods.hasPrevPage ? `http://localhost:3000/api/products?page=${prods.prevPage}` : null
     const nextLink = prods.hasNextPage ? `http://localhost:3000/api/products?page=${prods.nextPage}` : null
-
+    
     return { ...prods, status: status, prevLink: prevLink, nextLink: nextLink };
   }
 
