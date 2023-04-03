@@ -16,6 +16,7 @@ import MessageManager from "./dao/mongoManager/MessageManager.js"; // TODO meter
 import mongoStore from "connect-mongo"
 import "./dao/dbConfig.js";
 import passport from "passport";
+import cookieParser from 'cookie-parser'
 import './passport/PassportStrategies.js'
 
 //Creacion del servidor
@@ -24,6 +25,7 @@ const PORT = 3000;
 
 console.log(__dirname); //Brinda el path exacto para acceder a la carpeta PUBLIC
 
+app.use(cookieParser())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/public"));
