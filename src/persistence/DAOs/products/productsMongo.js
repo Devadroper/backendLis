@@ -75,7 +75,8 @@ export default class ProductManager {
     // nextLink: Link directo a la página siguiente (null si hasNextPage=false)
 
 
-    const prods = await productsModel.paginate(query, { page, limit, sort, customLabels: myCustomLabels });
+    const prods = await productsModel.paginate(query, { page, limit, sort, customLabels: myCustomLabels, lean: true })
+
 
 
     const status = prods !== 'error' ? 'success' : 'error' // como seria????

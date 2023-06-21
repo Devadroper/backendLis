@@ -141,7 +141,7 @@ export const resetPassword = async (req, res) => {
     await userManager.changePassword(userId, password);
     user.userToken = null
     user.save()
-    res.json({ message: "Contraseña restablecida exitosamente" });
+    res.json({ message: "Contraseña restablecida exitosamente" }).redirect('/');
   } catch (error) {
     console.log(error);
     res.status(400).json({ message: "Token inválido" });

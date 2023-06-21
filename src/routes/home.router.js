@@ -18,4 +18,8 @@ router.get('/', async (req, res) => { // si llamo al slash views renderio formua
     }
 })
 
-export default router 
+router.get('/reset/:token', (req, res) => {
+    res.render('recuperar', { token: req.params.token })
+})
+
+export default router

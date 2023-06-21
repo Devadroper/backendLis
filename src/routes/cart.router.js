@@ -1,6 +1,12 @@
 import { Router } from "express";
+import CartManager from "../persistence/DAOs/carts/CartMongo.js";
+import ProductManager from "../persistence/DAOs/products/productsMongo.js";
+
 
 const router = Router()
+
+const pm = new ProductManager()
+const cm = new CartManager()
 
 // renderiza carrito
 router.get('/', async (req, res) => { // si llamo al slash views renderio formualrio
@@ -8,17 +14,14 @@ router.get('/', async (req, res) => { // si llamo al slash views renderio formua
     if (req.session && !req.session.email) {
         res.redirect('/users/login')//redireccion a vista de login
     } else {
-        const baseUrl = req.protocol + '://' + req.get('host')
-        const cartApi = await fetch(baseUrl + `/api/carts/${req.session.cartId}`)
-        const dataCart = await cartApi.json()
+        const dataCart = await cm.getCartById(req.session.cartId)
         let total = 0
         let items = []
         for (const item of dataCart.products) {
-            const prod = await fetch(baseUrl + `/api/products/${item.productId}`)
-            const prodData = await prod.json()
-            const subtotal = prodData.price * item.quantity
+            const prod = await pm.getProductById(item.productId)
+            const subtotal = prod.price * item.quantity
             total += subtotal
-            items.push({...prodData, 'quantity': item.quantity, 'subtotal': subtotal})
+            items.push({...prod, 'quantity': item.quantity, 'subtotal': subtotal})
         }
         res.render('carts', { 'prods': items, 'userName': req.session.userName, 'cartId': req.session.cartId, 'total':total })
     }
