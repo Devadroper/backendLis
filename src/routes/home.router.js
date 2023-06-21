@@ -1,7 +1,6 @@
 // archivo para el renderizzado de VISTAS
 import { Router } from "express"; //importo router
-import ProductManager from "../dao/mongoManager/ProductManager.js";
-
+import ProductManager from "../persistence/DAOs/products/productsMongo.js";
 
 const router = Router()
 
@@ -12,9 +11,10 @@ router.get('/', async (req, res) => { // si llamo al slash views renderio formua
     if (req.session && !req.session.email) {
         res.redirect('/users/login')//redireccion a vista de login
     } else {
-        // si esta logueado ,muestro home
-        const prods = await pm.getProducts(req.query)
-        res.render('productsList', { 'prods': prods.payload, 'isAdminRole': req.session.role == 'admin', 'userName': req.session.userName })//cdo estoy en / se va a renderizar el handlebars home
+        // const baseUrl = req.protocol + '://' + req.get('host')
+        // const prods = await fetch('http://localhost:8080/api/products')
+        const dataProds = await pm.getProducts()
+        res.render('productsList', { 'prods': dataProds.payload, 'isAdminRole': req.session.role == 'admin', 'userName': req.session.userName, 'cartId': req.session.cartId })//cdo estoy en / se va a renderizar el handlebars home
     }
 })
 

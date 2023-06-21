@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { generateToken } from "../utils.js";
 // import { userModel } from "../Dao/models/users.model.js";
-import UsersManager from '../dao/mongoManager/UsersManager.js';
+import UsersManager from '../persistence/DAOs/users/usersMongo.js';
 
 const jwtRouter = Router()
 const um = new UsersManager()

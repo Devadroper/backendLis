@@ -1,6 +1,6 @@
 import passport from 'passport';
 import { Strategy as GithubStrategy } from 'passport-github2';
-import {userModel} from '../dao/models/users.model.js'
+import {userModel} from '../persistence/mongo/models/users.model.js'
 
 
 passport.use('github', new GithubStrategy({
@@ -8,7 +8,6 @@ passport.use('github', new GithubStrategy({
     clientSecret: "7fe59d640ad55f6c20a0fc386e137c0a68bc1aee",
     callbackURL: "http://localhost:3000/users/github"
 }, async (accessToken, refreshToken, profile, done) => {
-    console.log(profile);
     const user = await userModel.findOne({ email: profile._json.email })//de la inf q me manda github agarro el mail
     if (!user) {//si no exite el us lo creo
         const newUser = {
